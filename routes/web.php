@@ -11,13 +11,12 @@ Route::domain('{tenant}.rhizomecms.test')
 Route::domain('rhizomecms.test')->group(function () {
     Route::view('/', 'welcome');
 
-    Route::view('dashboard', 'dashboard')
-        ->middleware(['auth', 'verified'])
-        ->name('dashboard');
-
-    Route::view('profile', 'profile')
-        ->middleware(['auth'])
-        ->name('profile');
-
+    Route::middleware(['auth', 'verified'])->group(function () {
+        Route::view('dashboard', 'dashboard')->name('dashboard');
+        Route::view('profile', 'profile')->name('profile');
+        Route::post('/sites', [App\Http\Controllers\SiteController::class, 'store'])
+            ->name('sites.store');
+    });
+    
     require __DIR__.'/auth.php';
 });
