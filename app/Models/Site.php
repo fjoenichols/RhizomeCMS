@@ -11,6 +11,8 @@ class Site extends Model
         'name',
         'slug',
         'custom_domain',
+        'description',
+        'theme_color',
     ];
 
     public function user(): BelongsTo

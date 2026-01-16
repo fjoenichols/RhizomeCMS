@@ -9,17 +9,8 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900">
-                    {{ __("You're logged in!") }}
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 text-gray-900">
                     <div class="mb-8 pb-8 border-b">
-                        <h3 class="font-bold text-lg mb-4">Create a New Rhizome</h3>
+                        <h3 class="font-bold text-lg mb-4">Sprout a New Shoot</h3>
                         @if(session('success'))
                             <div class="mb-4 p-4 bg-green-100 text-green-700 rounded border border-green-200">
                                 {{ session('success') }}
@@ -38,10 +29,22 @@
                         <form action="{{ route('sites.store') }}" method="POST" class="space-y-4">
                             @csrf
                             <div>
-                                <label class="block text-sm font-medium">Site Name</label>
+                                <label class="block text-sm font-medium">Shoot Name</label>
                                 <input type="text" name="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="e.g. Mountain Lotus Digital" required>
                             </div>
+                            <div class="mt-4">
+                                <label class="block text-sm font-medium">Shoot Description</label>
+                                <textarea name="description" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="What will this shoot grow into?"></textarea>
+                            </div>
 
+                            <div class="mt-4">
+                                <label class="block text-sm font-medium">Theme Color</label>
+                                <select name="theme_color" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm">
+                                    <option value="green">Green</option>
+                                    <option value="blue">Blue</option>
+                                    <option value="purple">Purple</option>
+                                </select>
+                            </div>
                             <div>
                                 <label class="block text-sm font-medium">Subdomain (Slug)</label>
                                 <div class="flex items-center">
@@ -51,13 +54,13 @@
                             </div>
 
                             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                Create Site
+                                Sprout
                             </button>
                         </form>
                     </div>
 
                     <div>
-                        <h3 class="font-bold text-lg mb-4">Your Sites</h3>
+                        <h3 class="font-bold text-lg mb-4">Your Shoots</h3>
                         <ul class="space-y-2">
                             @foreach(auth()->user()->sites as $site)
                                 <li class="p-4 bg-gray-50 rounded border flex justify-between">

@@ -11,9 +11,10 @@ class SiteController extends Controller
     {
         $site = app('current_site');
         return response()->json([
-            'site_name' => $site->name,
+            'shoot_name' => $site->name,
+            'description' => $site->description ?? 'No description yet.',
+            'theme_color' => $site->theme_color,
             'owner' => $site->user->name,
-            'message' => "Welcome to the Rhizome."
         ]);
     }
 }
