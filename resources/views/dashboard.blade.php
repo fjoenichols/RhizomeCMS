@@ -61,13 +61,29 @@
 
                     <div>
                         <h3 class="font-bold text-lg mb-4">Your Shoots</h3>
-                        <ul class="space-y-2">
+                        <ul class="space-y-4">
                             @foreach(auth()->user()->sites as $site)
-                                <li class="p-4 bg-gray-50 rounded border flex justify-between">
-                                    <strong>{{ $site->name }}</strong>
-                                    <a href="http://{{ $site->slug }}.rhizomecms.test:8000" class="text-blue-600 hover:underline" target="_blank">
-                                        {{ $site->slug }}.rhizomecms.test
-                                    </a>
+                                <li class="p-6 bg-white rounded-lg border shadow-sm flex items-center justify-between">
+                                    <div>
+                                        <h4 class="text-lg font-bold text-gray-900">{{ $site->name }}</h4>
+                                        <a href="http://{{ $site->slug }}.rhizomecms.test:8000" class="text-sm text-blue-600 hover:underline" target="_blank">
+                                            {{ $site->slug }}.rhizomecms.test
+                                        </a>
+                                    </div>
+
+                                    <div class="flex items-center space-x-4">
+                                        <a href="{{ route('sites.edit', $site) }}" class="text-sm font-medium text-gray-600 hover:text-gray-900">
+                                            Edit
+                                        </a>
+
+                                        <form action="{{ route('sites.destroy', $site) }}" method="POST" onsubmit="return confirm('Are you sure you want to prune this shoot?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="text-sm font-medium text-red-600 hover:text-red-900">
+                                                Prune
+                                            </button>
+                                        </form>
+                                    </div>
                                 </li>
                             @endforeach
                         </ul>
