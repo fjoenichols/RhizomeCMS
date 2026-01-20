@@ -6,6 +6,7 @@ Route::domain('{tenant}.rhizomecms.test')
     ->middleware(['identify.tenant'])
     ->group(function () {
         Route::get('/', [App\Http\Controllers\Tenant\SiteController::class, 'index']);
+        Route::get('/{page_slug}', [App\Http\Controllers\Tenant\SiteController::class, 'showPage']);
     });
 
 Route::domain('rhizomecms.test')->group(function () {

@@ -13,4 +13,12 @@ class SiteController extends Controller
 
         return view('tenant.home', compact('site'));
     }
+
+    public function showPage($tenant, $page_slug)
+    {
+        $site = app('current_site');
+        $page = $site->pages()->where('slug', $page_slug)->firstOrFail();
+
+        return view('tenant.page', compact('site', 'page'));
+    }
 }
