@@ -70,8 +70,10 @@
                                             {{ $site->slug }}.rhizomecms.test
                                         </a>
                                     </div>
-
                                     <div class="flex items-center space-x-4">
+                                        <a href="{{ route('sites.pages.index', $site) }}" class="text-sm font-medium text-green-600 hover:text-green-900">
+                                            Manage Pages
+                                        </a>
                                         <a href="{{ route('sites.edit', $site) }}" class="text-sm font-medium text-gray-600 hover:text-gray-900">
                                             Edit
                                         </a>

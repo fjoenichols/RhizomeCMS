@@ -20,6 +20,7 @@ Route::domain('rhizomecms.test')->group(function () {
         Route::get('/sites/{site}/edit', [App\Http\Controllers\SiteController::class, 'edit'])->name('sites.edit');
         Route::put('/sites/{site}', [App\Http\Controllers\SiteController::class, 'update'])->name('sites.update');
         Route::delete('/sites/{site}', [App\Http\Controllers\SiteController::class, 'destroy'])->name('sites.destroy');
+        Route::resource('sites.pages', App\Http\Controllers\PageController::class);
     });
 
     require __DIR__.'/auth.php';
