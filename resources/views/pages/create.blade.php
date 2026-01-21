@@ -13,12 +13,12 @@
                     
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Page Title</label>
-                        <input type="text" name="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="e.g. Contact Us" required>
+                        <input type="text" name="title" id="title" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="e.g. Contact Us" required>
                     </div>
 
                     <div>
                         <label class="block text-sm font-medium text-gray-700">Slug</label>
-                        <input type="text" name="slug" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="e.g. contact" required>
+                        <input type="text" name="slug" id="slug" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="e.g. contact" required>
                         <p class="mt-1 text-xs text-gray-500">This determines the URL: {{ $site->slug }}.rhizomecms.test/slug</p>
                     </div>
 
@@ -38,3 +38,17 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    const titleInput = document.getElementById('title');
+    const slugInput = document.getElementById('slug');
+
+    titleInput.addEventListener('input', function() {
+        const slug = titleInput.value
+            .toLowerCase()
+            .replace(/[^\w ]+/g, '') // Remove non-word chars
+            .replace(/ +/g, '-');    // Replace spaces with -
+        
+        slugInput.value = slug;
+    });
+</script>

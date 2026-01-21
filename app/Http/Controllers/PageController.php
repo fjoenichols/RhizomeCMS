@@ -43,27 +43,35 @@ public function index(Site $site)
         //
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
+    public function edit(Site $site, Page $page)
     {
-        //
+        // Authorization check
+        if ($site->user_id !== auth()->id()) abort(403);
+        
+        return view('pages.edit', compact('site', 'page'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Site $site, Page $page)
     {
-        //
+        if ($site->user_id !== auth()->id()) abort(403);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'slug' => 'required|string|max:255|unique:pages,slug,' . $page->id . ',id,site_id,' . $site->id,
+            'content' => 'required|string',
+        ]);
+
+        $page->update($validated);
+
+        return redirect()->route('sites.pages.index', $site)->with('success', 'Page updated!');
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
+    public function destroy(Site $site, Page $page)
     {
-        //
+        if ($site->user_id !== auth()->id()) abort(403);
+
+        $page->delete();
+
+        return redirect()->route('sites.pages.index', $site)->with('success', 'Page removed.');
     }
 }

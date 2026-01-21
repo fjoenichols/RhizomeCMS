@@ -30,7 +30,7 @@
                             @csrf
                             <div>
                                 <label class="block text-sm font-medium">Shoot Name</label>
-                                <input type="text" name="name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="e.g. Mountain Lotus Digital" required>
+                                <input type="text" name="name" id="site_name" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="e.g. Mountain Lotus Digital" required>
                             </div>
                             <div class="mt-4">
                                 <label class="block text-sm font-medium">Shoot Description</label>
@@ -48,7 +48,7 @@
                             <div>
                                 <label class="block text-sm font-medium">Subdomain (Slug)</label>
                                 <div class="flex items-center">
-                                    <input type="text" name="slug" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="mountainlotus" required>
+                                    <input type="text" name="slug" id="site_slug" class="mt-1 block w-full border-gray-300 rounded-md shadow-sm" placeholder="mountainlotus" required>
                                     <span class="ml-2 text-gray-500">.rhizomecms.test</span>
                                 </div>
                             </div>
@@ -95,3 +95,22 @@
         </div>
     </div>
 </x-app-layout>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const nameInput = document.getElementById('site_name');
+        const slugInput = document.getElementById('site_slug');
+
+        if (nameInput && slugInput) {
+            nameInput.addEventListener('input', function() {
+                const slug = nameInput.value
+                    .toLowerCase()
+                    .trim()
+                    .replace(/[^\w ]+/g, '')
+                    .replace(/ +/g, '-');
+                
+                slugInput.value = slug;
+            });
+        }
+    });
+</script>

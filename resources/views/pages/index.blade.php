@@ -27,6 +27,17 @@
                                     <a href="http://{{ $site->slug }}.rhizomecms.test:8000/{{ $page->slug }}" target="_blank" class="text-blue-600 hover:underline text-sm">View Live</a>
                                     </div>
                             </li>
+                            <div class="flex space-x-4 items-center">
+                                <a href="http://{{ $site->slug }}.rhizomecms.test:8000/{{ $page->slug }}" target="_blank" class="text-blue-600 hover:underline text-sm">View</a>
+                                
+                                <a href="{{ route('sites.pages.edit', [$site, $page]) }}" class="text-gray-600 hover:text-gray-900 text-sm">Edit</a>
+
+                                <form action="{{ route('sites.pages.destroy', [$site, $page]) }}" method="POST" onsubmit="return confirm('Prune this page?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="text-red-600 hover:text-red-900 text-sm">Prune</button>
+                                </form>
+                            </div>
                         @endforeach
                     </ul>
                 @endif
