@@ -18,6 +18,19 @@
     @endphp
 
     <div class="min-h-screen flex flex-col items-center justify-center">
+        <nav class="flex items-center space-x-6 mb-8 pb-4 border-b border-gray-100">
+            <a href="/" 
+            class="text-sm font-bold {{ request()->is('/') ? 'text-green-600' : 'text-gray-400 hover:text-gray-600' }}">
+                Home
+            </a>
+
+            @foreach($pages as $p)
+                <a href="/{{ $p->slug }}" 
+                class="text-sm font-bold {{ request()->is($p->slug) ? 'text-green-600' : 'text-gray-900' }}">
+                    {{ $p->title }}
+                </a>
+            @endforeach
+        </nav>
         <div class="max-w-2xl w-full bg-white shadow-xl rounded-lg overflow-hidden border-t-8 {{ $themeClasses }}">
             <div class="p-8">
             <h1 class="text-4xl font-extrabold text-gray-900 mb-6">
