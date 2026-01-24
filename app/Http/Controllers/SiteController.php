@@ -35,22 +35,26 @@ class SiteController extends Controller
         return view('sites.edit', compact('site'));
     }
 
-    public function update(Request $request, Site $site)
-    {
-        if ($site->user_id !== auth()->id()) {
-            abort(403);
-        }
-
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string|max:1000',
-            'theme_color' => 'required|string|in:blue,green,purple',
-        ]);
-
-        $site->update($validated);
-
-        return redirect()->route('dashboard')->with('success', 'Shoot updated successfully!');
+public function update(Request $request, Site $site)
+{
+    if ($site->user_id !== auth()->id()) {
+        abort(403);
     }
+
+    $validated = $request->validate([
+        'name' => 'required|string|max:255',
+        'description' => 'nullable|string|max:1000',
+        'theme_color' => 'required|string|in:blue,green,purple',
+        'hero_title' => 'nullable|string|max:255',
+        'hero_subtitle' => 'nullable|string|max:255',
+        'cta_text' => 'nullable|string|max:255',
+        'business_phone' => 'nullable|string|max:255',
+    ]);
+
+    $site->update($validated);
+
+    return redirect()->route('dashboard')->with('success', 'Shoot updated successfully!');
+}
 
     public function destroy(Site $site)
     {

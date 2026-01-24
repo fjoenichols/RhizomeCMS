@@ -6,59 +6,73 @@
     <title>{{ $site->name }}</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="bg-gray-100 font-sans antialiased">
+<body class="antialiased bg-gray-50 text-gray-900">
 
-    @php
-        $colors = [
-            'blue' => 'bg-blue-600 border-blue-800',
-            'green' => 'bg-green-600 border-green-800',
-            'purple' => 'bg-purple-600 border-purple-800',
-        ];
-        $themeClasses = $colors[$site->theme_color] ?? $colors['blue'];
-    @endphp
-
-    <div class="min-h-screen flex flex-col items-center justify-center">
-        <nav class="flex items-center space-x-6 mb-8 pb-4 border-b border-gray-100">
-            <a href="/" 
-            class="text-sm font-bold {{ request()->is('/') ? 'text-green-600' : 'text-gray-400 hover:text-gray-600' }}">
-                Home
-            </a>
-
-            @foreach($pages as $p)
-                <a href="/{{ $p->slug }}" 
-                class="text-sm font-bold {{ request()->is($p->slug) ? 'text-green-600' : 'text-gray-900' }}">
-                    {{ $p->title }}
+    <div class="max-w-5xl mx-auto px-4 py-12">
+        
+        <header class="flex flex-col md:flex-row justify-between items-center mb-16">
+            <div class="text-2xl font-black tracking-tighter text-gray-900 mb-4 md:mb-0">
+                {{ $site->name }}
+            </div>
+            
+            <nav class="flex items-center space-x-8">
+                <a href="/" class="text-sm font-bold {{ request()->is('/') ? 'text-gray-900 border-b-2 border-gray-900' : 'text-gray-400 hover:text-gray-600' }}">
+                    Home
                 </a>
-            @endforeach
-        </nav>
-        <div class="max-w-2xl w-full bg-white shadow-xl rounded-lg overflow-hidden border-t-8 {{ $themeClasses }}">
-            <div class="p-8">
-                <h1 class="text-4xl font-extrabold text-gray-900 mb-4">
-                    {{ $site->name }}
+                @foreach($pages as $p)
+                    <a href="/{{ $p->slug }}" class="text-sm font-bold text-gray-400 hover:text-gray-600">
+                        {{ $p->title }}
+                    </a>
+                @endforeach
+            </nav>
+        </header>
+
+        <section class="relative overflow-hidden rounded-3xl p-8 md:p-16 mb-12 
+            {{ $site->theme_color === 'green' ? 'bg-green-600 text-white' : '' }}
+            {{ $site->theme_color === 'blue' ? 'bg-blue-600 text-white' : '' }}
+            {{ $site->theme_color === 'purple' ? 'bg-purple-600 text-white' : '' }}">
+            
+            <div class="relative z-10 max-w-2xl">
+                <h1 class="text-4xl md:text-6xl font-black leading-tight mb-6">
+                    {{ $site->hero_title ?? 'Welcome to ' . $site->name }}
                 </h1>
                 
-                <p class="text-lg text-gray-600 leading-relaxed mb-6">
-                    {{ $site->description ?? 'This shoot is just beginning to grow.' }}
+                <p class="text-xl md:text-2xl opacity-90 mb-10 leading-relaxed">
+                    {{ $site->hero_subtitle ?? $site->description }}
                 </p>
 
-                <div class="pt-6 border-t border-gray-100">
-                    <p class="text-sm text-gray-500 italic">
-                        Powered by 
-                        <a href="{{ 'http://' . config('app.url') . '/register' }}" class="font-semibold hover:text-gray-600 transition">
-                            RhizomeCMS
-                        </a> | Sprouted by {{ $site->user->name }}
-                    </p>
-                </div>
+                @if($site->cta_text)
+                    <a href="/contact" class="inline-block bg-white text-gray-900 px-8 py-4 rounded-xl font-black text-lg shadow-xl hover:scale-105 transition-transform">
+                        {{ $site->cta_text }}
+                    </a>
+                @endif
             </div>
-        </div>
+
+            <div class="absolute -bottom-24 -right-24 w-96 h-96 bg-white opacity-10 rounded-full"></div>
+        </section>
+
+        <article class="prose prose-lg max-w-none bg-white p-8 md:p-12 rounded-3xl shadow-sm border border-gray-100">
+            <h2 class="text-3xl font-bold mb-6">Our Story</h2>
+            <div class="text-gray-600 leading-relaxed">
+                {!! nl2br(e($site->description)) !!}
+            </div>
+        </article>
+
+        <footer class="mt-20 pt-10 border-t border-gray-200 flex flex-col items-center">
+            @if($site->business_phone)
+                <div class="mb-6">
+                    <span class="text-sm uppercase tracking-widest text-gray-400 block text-center mb-1">Call Us Directly</span>
+                    <a href="tel:{{ $site->business_phone }}" class="text-2xl font-bold hover:underline">
+                        {{ $site->business_phone }}
+                    </a>
+                </div>
+            @endif
+            
+            <p class="text-gray-400 text-sm">
+                &copy; {{ date('Y') }} {{ $site->name }}. Powered by <span class="font-bold text-green-600">RhizomeCMS</span>.
+            </p>
+        </footer>
     </div>
-    <footer class="mt-12 py-6 text-center border-t border-gray-200 w-full max-w-2xl">
-        <p class="text-sm text-gray-400">
-            Powered by 
-            <a href="{{ 'http://' . config('app.url') . '/register' }}" class="font-semibold hover:text-gray-600 transition">
-                RhizomeCMS
-            </a>
-        </p>
-    </footer>
+
 </body>
 </html>

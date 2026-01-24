@@ -4,15 +4,14 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Site extends Model
 {
+    use HasFactory;
     protected $fillable = [
-        'name',
-        'slug',
-        'custom_domain',
-        'description',
-        'theme_color',
+        'user_id', 'name', 'slug', 'description', 'theme_color',
+        'hero_title', 'hero_subtitle', 'cta_text', 'business_phone'
     ];
 
     public function user(): BelongsTo
