@@ -10,11 +10,13 @@ class SiteController extends Controller
     public function index()
     {
         $site = app('current_site');
-        $pages = $site->pages()->get();
+        $pages = $site->pages;
+        
+        $homePage = $site->pages()->where('slug', 'home')->first();
 
-        return view('tenant.home', compact('site', 'pages'));
+        return view('tenant.home', compact('site', 'pages', 'homePage'));
     }
-
+    
     public function showPage($tenant, $page_slug)
     {
         $site = app('current_site');

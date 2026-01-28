@@ -23,4 +23,15 @@ class Site extends Model
     {
         return $this->hasMany(Page::class);
     }
+
+    protected static function booted()
+    {
+        static::created(function ($site) {
+            $site->pages()->create([
+                'title' => 'Home',
+                'slug' => 'home',
+                'content' => 'Welcome to your new site! This page was automatically generated to help you get started. You can edit this content anytime from your dashboard.',
+            ]);
+        });
+    }
 }

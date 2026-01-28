@@ -19,11 +19,6 @@
 
     <div class="min-h-screen flex flex-col items-center justify-center">
         <nav class="flex items-center space-x-6 mb-8 pb-4 border-b border-gray-100">
-            <a href="/" 
-            class="text-sm font-bold {{ request()->is('/') ? 'text-green-600' : 'text-gray-400 hover:text-gray-600' }}">
-                Home
-            </a>
-
             @foreach($pages as $p)
                 <a href="/{{ $p->slug }}" 
                 class="text-sm font-bold {{ request()->is($p->slug) ? 'text-green-600' : 'text-gray-900' }}">
