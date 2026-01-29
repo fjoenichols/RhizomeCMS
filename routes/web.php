@@ -1,5 +1,6 @@
 <?php
 
+use App\Livewire\PageEditor;
 use Illuminate\Support\Facades\Route;
 
 Route::domain('{tenant}.rhizomecms.test')
@@ -9,6 +10,7 @@ Route::domain('{tenant}.rhizomecms.test')
         Route::get('/{page_slug}', [App\Http\Controllers\Tenant\SiteController::class, 'showPage']);
     });
 
+    
 Route::domain('rhizomecms.test')->group(function () {
     Route::view('/', 'welcome');
 
