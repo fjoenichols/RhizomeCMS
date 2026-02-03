@@ -18,13 +18,12 @@ class SiteController extends Controller
     public function showPage($tenant, $page_slug)
     {
         $site = app('current_site');
-
-        if ($page_slug === 'home') {
-            return $this->index();
-        }
-
         $pages = $site->getNavigationPages();
         $page = $site->pages()->where('slug', $page_slug)->firstOrFail();
+
+        if (view()->exists("tenant.pages.{$page_slug}")) {
+            return view("tenant.pages.{$page_slug}", compact('site', 'page', 'pages'));
+        }
 
         return view('tenant.page', compact('site', 'page', 'pages'));
     }

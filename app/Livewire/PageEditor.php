@@ -11,36 +11,61 @@ class PageEditor extends Component
     public Site $site;
     public Page $page;
 
-    // The Properties
+    // Standard Properties
     public $title;
     public $content;
+    public $about_text;
     public $hero_subtitle;
     public $hero_image;
     public $hero_cta_text;
     public $hero_cta_link;
-    public $about_text;
+
+    // Flexible JSON Properties
+    public $core_values = [];
+    public $features = [];
 
     public function mount(Site $site, Page $page)
     {
         $this->site = $site;
         $this->page = $page;
         
-        // Load existing data into the properties
-        $this->title = $page->title;
-        $this->content = $page->content;
-        $this->hero_subtitle = $page->hero_subtitle;
-        $this->hero_image = $page->hero_image;
-        $this->hero_cta_text = $page->hero_cta_text;
-        $this->hero_cta_link = $page->hero_cta_link;
-        $this->about_text = $page->about_text;
+        $this->fill($page->toArray());
+
+        $this->core_values = $page->core_values ?? [];
+        $this->features = $page->features ?? [];
+    }
+
+    public function addValue()
+    {
+        $this->core_values[] = ['title' => '', 'desc' => ''];
+        $this->saveJsonFields();
+    }
+
+    public function removeValue($index)
+    {
+        unset($this->core_values[$index]);
+        $this->core_values = array_values($this->core_values); // Reset keys for Blade
+        $this->saveJsonFields();
     }
 
     public function updated($propertyName)
     {
-        // This is the magic: any change to the properties above 
-        // triggers an instant save to the database.
+        // Handle nested JSON properties (core_values.0.title, etc.)
+        if (str_starts_with($propertyName, 'core_values') || str_starts_with($propertyName, 'features')) {
+            $this->saveJsonFields();
+        } else {
+            // Handle standard columns
+            $this->page->update([
+                $propertyName => $this->$propertyName
+            ]);
+        }
+    }
+
+    protected function saveJsonFields()
+    {
         $this->page->update([
-            $propertyName => $this->$propertyName
+            'core_values' => $this->core_values,
+            'features' => $this->features
         ]);
     }
 

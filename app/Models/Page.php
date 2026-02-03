@@ -15,7 +15,14 @@ class Page extends Model
         'hero_image', 
         'hero_cta_text', 
         'hero_cta_link', 
-        'about_text'
+        'about_text',
+        'core_values',
+        'features',
+    ];
+
+    protected $casts = [
+        'core_values' => 'array',
+        'features' => 'array',
     ];
 
     public function site()
