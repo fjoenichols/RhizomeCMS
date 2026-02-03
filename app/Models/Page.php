@@ -6,7 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Page extends Model
 {
-    protected $fillable = ['site_id', 'title', 'slug', 'content'];
+    protected $fillable = [
+        'site_id', 
+        'title', 
+        'slug', 
+        'content', 
+        'hero_subtitle', 
+        'hero_image', 
+        'hero_cta_text', 
+        'hero_cta_link', 
+        'about_text'
+    ];
 
     public function site()
     {

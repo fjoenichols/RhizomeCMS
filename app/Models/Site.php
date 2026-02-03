@@ -34,4 +34,16 @@ class Site extends Model
             ]);
         });
     }
+
+    public function getNavigationPages()
+    {
+        return $this->pages()->get()->sort(function ($a, $b) {
+            if ($a->slug === 'home') return -1;
+            if ($b->slug === 'home') return 1;
+            if ($a->slug === 'contact') return 1;
+            if ($b->slug === 'contact') return -1;
+            
+            return strcmp($a->title, $b->title);
+        });
+    }
 }
